@@ -1,3 +1,6 @@
+setwd("./Desktop/Arboretum")
+
+
 ## IMPORT PACKAGES:
 
 library(plyr); library(shiny); library(stringr); library(dplyr); library(data.table)
@@ -149,8 +152,9 @@ str(us_concern_unq)
   # write a final CSV
 write.csv(us_concern_unq, file = "./exsitu_data/concern_subsets/us_concern_unq_locality.csv")
 
-########### STATS ############ ----all suddenly not working??? -- "no applicable method for 'group_by_' applied to an object of class "character""
-# all US species
+## STATISTICS : institutions and accessions - saved to CSVs
+  
+  # all US oak species
 acc_per_inst_us <- count(us_all, inst_short)
 write.csv(acc_per_inst_us, file = "./exsitu_data/us_subsets/acc_per_inst_us.csv")
 acc_per_sp_us <- count(us_all, species)
@@ -162,8 +166,7 @@ write.csv(joined, file = "./sp_occ/species_lists/total_acc_per_sp.csv")
 acc_per_sp_per_inst <- ddply(us_all, .(us_all$species, us_all$inst_short, us_all$inst_short2, us_all$no_alive), nrow)
 names(acc_per_sp_per_inst) <- c("species","inst_short","inst_short2","no_alive","Freq")
 write.csv(acc_per_sp_per_inst, file = "./exsitu_data/us_subsets/acc_per_sp_per_inst2.csv")
-
-# species of concern
+  # species of concern
 acc_per_inst_conc <- count(us_concern, inst_short)
 acc_per_inst2_conc <- count(us_concern, inst_short2)
 acc_per_sp_conc <- count(us_concern, species)
@@ -214,17 +217,3 @@ server <- function(input, output){
     acc_per_sp_us})
 }
 shinyApp(ui = ui, server = server)
-
-
-
-
-# 3. Prov Type:
-  # W, and U with locality info present
-concern_prov_ukn <- gen_subset(us_concern, us_concern$locality != "" & us_concern$prov_type == "U")
-nrow(concern_prov_ukn)
-concern_prov_w <- gen_subset(us_concern, us_concern$locality != "" & us_concern$prov_type == "W")
-nrow(concern_prov_w)
-us_prov_w <- gen_subset(us_all, us_all$locality != "" & us_all$prov_type == "W")
-nrow(us_prov_w)
-all_prov_w <- gen_subset(all_data_spscrub, all_data_spscrub$locality != "" & all_data_spscrub$prov_type == "W")
-nrow(all_prov_w)
