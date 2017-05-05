@@ -155,25 +155,29 @@ write.csv(us_concern_unq, file = "./exsitu_data/concern_subsets/us_concern_unq_l
 ## STATISTICS : institutions and accessions - saved to CSVs
   
   # all US oak species
+    # number of accessions in each institutions' dataset
 acc_per_inst_us <- count(us_all, inst_short)
 write.csv(acc_per_inst_us, file = "./exsitu_data/us_subsets/acc_per_inst_us.csv")
+    # number of accesssions of each species
 acc_per_sp_us <- count(us_all, species)
 write.csv(acc_per_sp_us, file = "./exsitu_data/us_subsets/acc_per_sp_us.csv")
+    # load US oak species list that includes --threat-- data; join to accessions per species dataframe just created
 total_list <- read.csv('./sp_occ/species_lists/total_list.csv',
     as.is=TRUE, sep=',',row.names=NULL, strip.white = TRUE)
 joined <- join(acc_per_sp_us, total_list, by = "species", type="right")
 write.csv(joined, file = "./sp_occ/species_lists/total_acc_per_sp.csv")
+    # MOST HOLISTIC STAT (if you just want to do one)
 acc_per_sp_per_inst <- ddply(us_all, .(us_all$species, us_all$inst_short, us_all$inst_short2, us_all$no_alive), nrow)
 names(acc_per_sp_per_inst) <- c("species","inst_short","inst_short2","no_alive","Freq")
-write.csv(acc_per_sp_per_inst, file = "./exsitu_data/us_subsets/acc_per_sp_per_inst2.csv")
+write.csv(acc_per_sp_per_inst, file = "./exsitu_data/us_subsets/acc_per_sp_per_inst2_us.csv")
   # species of concern
-acc_per_inst_conc <- count(us_concern, inst_short)
-acc_per_inst2_conc <- count(us_concern, inst_short2)
+#acc_per_inst_conc <- count(us_concern, inst_short)
+#acc_per_inst2_conc <- count(us_concern, inst_short2)
 acc_per_sp_conc <- count(us_concern, species)
 write.csv(acc_per_sp_conc, file = "./exsitu_data/concern_subsets/acc_per_sp.csv")
 acc_per_sp_per_inst <- ddply(us_concern, .(us_concern$species, us_concern$inst_short, us_concern$inst_short2, us_concern$no_alive), nrow)
 names(acc_per_sp_per_inst) <- c("species","inst_short","inst_short2","no_alive","Freq")
-write.csv(acc_per_sp_per_inst, file = "./exsitu_data/concern_subsets/acc_per_sp_per_inst2.csv")
+write.csv(acc_per_sp_per_inst, file = "./exsitu_data/concern_subsets/acc_per_sp_per_inst2_concern.csv")
 
 
 ########################## CURRENT END ##############################
