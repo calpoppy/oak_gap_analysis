@@ -19,6 +19,12 @@ file_list <- list.files(path = "./exsitu_data/updated_csv_files", pattern = ".cs
 file_dfs <- sapply(file_list, read.csv, header = TRUE, fileEncoding="latin1", strip.white = TRUE, colClasses = "character")
 length(file_dfs)
 
+# call merge/stack function
+    # 'Reduce' iterates through list and merges with previous dataframe in the list
+all_data <- Reduce(rbind.all.columns, file_dfs)
+str(all_data)
+nrow(all_data)
+
 # inst_short [nickname I've created for each institution] column added, based on file name
 for(file in seq_along(file_dfs)){
   file_dfs[[file]]$inst_short <- rep(file_list[file], nrow(file_dfs[[file]]))
