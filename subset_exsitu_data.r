@@ -182,7 +182,7 @@ write.csv(acc_per_sp_per_inst, file = "./exsitu_data/concern_subsets/acc_per_sp_
 
 ########################## CURRENT END ##############################
 
-## Just playing with ShinyApp and summary tables :
+## Was just playing with ShinyApp and summary tables; no longer works, used old variables
 
 # Create a nice table of record numbers
   # create data frame of values to display
