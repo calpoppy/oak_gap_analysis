@@ -9,7 +9,7 @@ aea <- CRS("+proj=aea +lat_1=29.5 +lat_2=45.5 +lat_0=23 +lon_0=-96 +x_0=0 +y_0=0
   # create a template raster with the parameters that will be common for all rasters that need to be stacked
 example <- raster(nrow=621, ncol=1405, xmn=-2493045, xmx=2342655, ymn=91397.96, ymx=3310005, crs=aea)
 
-## load, standardize, and stack predictor raster layers
+## load and standardize predictor raster layers
 
   # 1. NLCD: land cover 2011
 landcover <- raster('./NLCD/nlcd_2011_landcover_2011_edition_2014_10_10.img')
@@ -45,7 +45,9 @@ tmean_annual <- raster("PRISM/tmean_annual/PRISM_tmean_30yr_normal_4kmM2_annual_
     # vapor pressure deficit
 vpdmax <- raster("PRISM/vpdmax/PRISM_vpdmax_30yr_normal_4kmM2_annual_bil.bil")
 vpdmin <- raster("PRISM/vpdmin/PRISM_vpdmin_30yr_normal_4kmM2_annual_bil.bil")
-    # create list of all PRISM layers
+
+## create RasterStack of all layers
+    # create list of PRISM layers
 predictors_list <- c(dem, ppt_05, ppt_06, ppt_07, ppt_08, ppt_09, ppt_annual, tmean_01, tmean_05, tmean_06,
       tmean_07, tmean_08, tmean_09, tmean_annual, vpdmin, vpdmax)
     # stack all in list
